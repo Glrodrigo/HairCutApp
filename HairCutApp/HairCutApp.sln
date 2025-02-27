@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HairCutApp", "HairCutApp\HairCutApp.csproj", "{AD9B2573-43CB-4D9D-A45F-600D2C977762}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "001 - Api", "001 - Api", "{754BE3DD-7EF1-4A92-AC58-2458FA769D1A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "002 - Core", "002 - Core", "{5D6C2BA1-4B5C-4F42-B055-1D398397C6E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "003 - Shared", "003 - Shared", "{D8FDCB91-D561-4295-AE98-3C58C295F367}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairCut.Tools.Domain", "HairCut.Tools.Domain\HairCut.Tools.Domain.csproj", "{8FE6D657-E9BF-4787-9F21-5D428DB024FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairCut.Tools.Service", "HairCut.Tools.Service\HairCut.Tools.Service.csproj", "{AD76F215-E6DE-418B-9E4D-2FA82089ABBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairCut.Generals", "HairCut.Generals\HairCut.Generals.csproj", "{E4AC1802-1C47-418D-BE14-3F1B35D58EAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairCut.Tools.Repository", "HairCut.Tools.Repository\HairCut.Tools.Repository.csproj", "{8F934EAD-BD59-4223-B634-68B7A2E039FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD9B2573-43CB-4D9D-A45F-600D2C977762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD9B2573-43CB-4D9D-A45F-600D2C977762}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD9B2573-43CB-4D9D-A45F-600D2C977762}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD9B2573-43CB-4D9D-A45F-600D2C977762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FE6D657-E9BF-4787-9F21-5D428DB024FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FE6D657-E9BF-4787-9F21-5D428DB024FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FE6D657-E9BF-4787-9F21-5D428DB024FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FE6D657-E9BF-4787-9F21-5D428DB024FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD76F215-E6DE-418B-9E4D-2FA82089ABBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD76F215-E6DE-418B-9E4D-2FA82089ABBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD76F215-E6DE-418B-9E4D-2FA82089ABBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD76F215-E6DE-418B-9E4D-2FA82089ABBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4AC1802-1C47-418D-BE14-3F1B35D58EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4AC1802-1C47-418D-BE14-3F1B35D58EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4AC1802-1C47-418D-BE14-3F1B35D58EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4AC1802-1C47-418D-BE14-3F1B35D58EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F934EAD-BD59-4223-B634-68B7A2E039FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F934EAD-BD59-4223-B634-68B7A2E039FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F934EAD-BD59-4223-B634-68B7A2E039FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F934EAD-BD59-4223-B634-68B7A2E039FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AD9B2573-43CB-4D9D-A45F-600D2C977762} = {754BE3DD-7EF1-4A92-AC58-2458FA769D1A}
+		{8FE6D657-E9BF-4787-9F21-5D428DB024FF} = {5D6C2BA1-4B5C-4F42-B055-1D398397C6E9}
+		{AD76F215-E6DE-418B-9E4D-2FA82089ABBE} = {5D6C2BA1-4B5C-4F42-B055-1D398397C6E9}
+		{E4AC1802-1C47-418D-BE14-3F1B35D58EAF} = {D8FDCB91-D561-4295-AE98-3C58C295F367}
+		{8F934EAD-BD59-4223-B634-68B7A2E039FD} = {5D6C2BA1-4B5C-4F42-B055-1D398397C6E9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {74F9E2BC-103C-457C-A6EA-6D180BF85B46}
+	EndGlobalSection
+EndGlobal
