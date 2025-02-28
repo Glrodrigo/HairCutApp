@@ -5,10 +5,30 @@ namespace HairCut.Tools.Domain
     public class UserBase
     {
         public int Id { get; private set; }
-        public DateTime CreationDate { get; private set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+
+        public string FirstName { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
+        public bool Active { get; set; }
+        public string? Hash { get; set; }
+        public DateTime? HashDate { get; set; }
+        public int AccessCount { get; set; }
+        public int AccessFailed { get; set; }
+        public bool SignOut { get; set; }
+        public bool ResetPassword { get; set; }
+        public Guid SessionId { get; set; }
+        public Guid SecurityStamp { get; set; }
+        public DateTime? LastAccess { get; set; }
+        public Guid ChangeUserId { get; set; }
+        public Guid? ProfileId { get; set; }
+        public int PasswordAttemptCount { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime? EventDate { get; set; }
+        public DateTime? AccessDate { get; set; }
+        public DateTime? ExclusionDate { get; set; }
 
 
         public UserBase(string name, string email, string password)
@@ -28,9 +48,11 @@ namespace HairCut.Tools.Domain
             if (!StringFormat.isValidPassword(password))
                 throw new Exception("A Senha precisa conter uma letra maíuscula, um caracter especial e no mínimo cinco caracteres");
 
-            CreationDate = DateTime.UtcNow;
+            CreateDate = DateTime.UtcNow;
             Name = name.ToUpper();
             Email = email.ToLower();
+            FirstName = name.Split(' ')[0];
+            Active = true;
             Password = password;
         }
     }

@@ -49,6 +49,8 @@
             { "Informações de envio estão incompletas", "00034" },
             { "Caminho de arquivo não encontrado", "00035" },
             { "Não foi possível adicionar a imagem no momento", "00036" },
+            { "Ocorreu um erro ao tentar obter o usuário do banco de dados", "00037" },
+            { "Erro ao tentar atualizar usuário", "00038" }
             //{ "Registro de pessoas contatadas não enviado", "00015" },
             //{ "Registro de pessoas contatadas incorreto", "00016" },
             //{ "Território preenchido não encontrado", "00017" },

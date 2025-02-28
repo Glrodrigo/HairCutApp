@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HairCut.Generals\HairCut.Generals.csproj" />
     <ProjectReference Include="..\HairCut.Tools.Service\HairCut.Tools.Service.csproj" />
   </ItemGroup>
 

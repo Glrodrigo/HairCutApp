@@ -10,6 +10,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
 
 var connection = builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 builder.Services.AddDbContext<AppDbContext>(options =>
