@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HairCutApp.Controllers
 {
-    [Route("v1/User")]
+    [Route("v1/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace HairCutApp.Controllers
             _userService = userService;
         }
 
-        [HttpPost("Login", Name = "LoginUser")]
+        [HttpPost("login", Name = "loginUser")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDomain login)
         {
             try
@@ -29,7 +29,7 @@ namespace HairCutApp.Controllers
             }
         }
 
-        [HttpPost("Create", Name = "CreateUser")]
+        [HttpPost("create", Name = "createUser")]
         public async Task<IActionResult> CreateAsync([FromBody] UserDomain user)
         {
             try

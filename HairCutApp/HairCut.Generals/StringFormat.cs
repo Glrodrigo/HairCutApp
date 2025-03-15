@@ -17,5 +17,12 @@ namespace HairCut.Generals
 
             return Regex.IsMatch(password, pattern);
         }
+
+        public static bool IsHexColor(string hexColor)
+        {
+            string pattern = @"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+
+            return Regex.IsMatch(hexColor, pattern);
+        }
     }
 }

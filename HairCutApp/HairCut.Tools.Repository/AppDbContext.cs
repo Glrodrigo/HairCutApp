@@ -6,6 +6,7 @@ namespace HairCut.Tools.Repository
     public class AppDbContext : DbContext
     {
         public DbSet<UserBase> Users { get; set; }
+        public DbSet<AccessBase> Access { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
@@ -16,21 +17,42 @@ namespace HairCut.Tools.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserBase>()
-                .HasKey(t => t.Id);
+                .HasKey(a => a.Id);
 
             modelBuilder.Entity<UserBase>()
-                .Property(t => t.Id)
+                .Property(a => a.Id)
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
             modelBuilder.Entity<UserBase>()
-                .Property(t => t.Name)
+                .Property(a => a.Name)
                 .IsRequired()
                 .HasMaxLength(200);
 
             modelBuilder.Entity<UserBase>()
-                .Property(t => t.Email)
+                .Property(a => a.Email)
                 .IsRequired();
+
+            // Another model
+            modelBuilder.Entity<AccessBase>()
+                .HasKey(b => b.Id);
+
+            modelBuilder.Entity<AccessBase>()
+                .Property(b => b.Id)
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            modelBuilder.Entity<AccessBase>()
+                .Property(b => b.AccountName)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            modelBuilder.Entity<AccessBase>()
+                .Property(b => b.ProfileName)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

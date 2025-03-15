@@ -11,6 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
+builder.Services.AddScoped<IAccessRepository, AccessRepository>();
+builder.Services.AddScoped<IAccessService, AccessService>();
 
 var connection = builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -31,7 +33,7 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    dbContext.Database.EnsureCreated();
+    dbContext.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.
