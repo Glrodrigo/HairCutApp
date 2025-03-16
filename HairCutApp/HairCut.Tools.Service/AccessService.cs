@@ -22,13 +22,9 @@ namespace HairCut.Tools.Service
         {
             try
             {
-                Guid privilege = Guid.Parse(_configuration.GetSection("Access")["SecretKey"]);
-                var user = await _userRepository.FindByIdAsync(userId);
+                var admin = await ValidateAccess(userId);
 
-                if (user.Count == 0)
-                    throw new Exception("A key não foi localizada em nossa base");
-
-                if (user[0].Active != true || user[0].ProfileId != privilege)
+                if (!admin)
                     return false;
 
                 access = this.HandleAccess(access);
@@ -52,6 +48,134 @@ namespace HairCut.Tools.Service
             }
         }
 
+        public async Task<bool> ChangeAsync(AccessBase access, int userId, Guid profileId)
+        {
+            try
+            {
+                var user = await _userRepository.FindByIdAsync(userId);
+
+                if (user.Count == 0)
+                    throw new Exception("A key não foi localizada em nossa base");
+
+                if (profileId == Guid.Empty || profileId == default)
+                    throw new Exception("A key está vazia ou inválida");
+
+                var oldAccesses = await _accessRepository.FindByProfileIdAsync(profileId);
+
+                if (oldAccesses.Count == 0)
+                    throw new Exception("Perfil de usuário inexistente");
+
+                var oldAccess = oldAccesses[0];
+
+                access = this.HandleAccess(access);
+
+                if (oldAccess.AccountName != access.AccountName)
+                    oldAccess.AccountName = access.AccountName;
+
+                if (oldAccess.ProfileName != access.ProfileName)
+                    oldAccess.ProfileName = access.ProfileName;
+
+                if (oldAccess.LevelCode != access.LevelCode)
+                    oldAccess.LevelCode = access.LevelCode;
+
+                if (oldAccess.RuleCode != access.RuleCode)
+                    oldAccess.RuleCode = access.RuleCode;
+
+                if (oldAccess.RuleName != access.RuleName)
+                    oldAccess.RuleName = access.RuleName;
+
+                if (oldAccess.Color != access.Color)
+                    oldAccess.Color = access.Color;
+
+                oldAccess.ChangeUserId = userId;
+                oldAccess.EventDate = DateTime.UtcNow;
+
+                var result = await _accessRepository.UpdateAsync(oldAccess);
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+        }
+
+
+        public async Task<bool> ChangeUserAccessAsync(int id, int userId, Guid profileId)
+        {
+            try
+            {
+                var admin = await ValidateAccess(id);
+
+                if (!admin)
+                    return false;
+
+                if (profileId == Guid.Empty || profileId == default)
+                    throw new Exception("A key está vazia ou inválida");
+
+                var accesses = await _accessRepository.FindByProfileIdAsync(profileId);
+
+                if (accesses.Count == 0)
+                    throw new Exception("Perfil de usuário inexistente");
+
+                var users = await _userRepository.FindByIdAsync(userId);
+
+                if (users.Count == 0)
+                    throw new Exception("Perfil de usuário inexistente");
+
+                var user = users[0];
+
+                user.EventDate = DateTime.UtcNow;
+                user.ProfileId = profileId;
+                user.ChangeUserId = id;
+
+                var result = await _userRepository.UpdateAsync(user);
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(int userId, Guid profileId)
+        {
+            try
+            {
+                var admin = await ValidateAccess(userId);
+
+                if (!admin)
+                    return false;
+
+                if (profileId == Guid.Empty || profileId == default)
+                    throw new Exception("A key está vazia ou inválida");
+
+                var accesses = await _accessRepository.FindByProfileIdAsync(profileId);
+
+                if (accesses.Count == 0)
+                    throw new Exception("A key não foi localizada em nossa base");
+
+                var access = accesses[0];
+
+                if (access.Active == false)
+                    throw new Exception("Perfil desativado");
+
+                access.Active = false;
+                access.ExclusionDate = DateTime.UtcNow;
+                access.EventDate = access.ExclusionDate;
+                access.ChangeUserId = userId;
+
+                var result = await _accessRepository.UpdateAsync(access);
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+        }
+
         public AccessBase HandleAccess(AccessBase access)
         {
             try
@@ -68,20 +192,7 @@ namespace HairCut.Tools.Service
                 if (!string.IsNullOrEmpty(access.Color) && !StringFormat.IsHexColor(access.Color))
                     throw new Exception("Código de cor inválido");
 
-                if (access.LevelCode == 1)
-                {
-                    access.LevelCode = 1;
-                    access.RuleCode = 1;
-                    access.RuleName = "View all options";
-                    access.Color = "#2a4e7d";
-                }
-                else
-                {
-                    access.LevelCode = 0;
-                    access.RuleCode = 0;
-                    access.RuleName = "View only selected options";
-                    access.Color = "#999185";
-                }
+                access = HandleEnumRules(access);
 
                 return access;
             }
@@ -89,6 +200,40 @@ namespace HairCut.Tools.Service
             {
                 throw;
             }
+        }
+
+        public AccessBase HandleEnumRules(AccessBase access)
+        {
+            if (access.LevelCode == 1)
+            {
+                access.LevelCode = 1;
+                access.RuleCode = 1;
+                access.RuleName = "View all options";
+                access.Color = "#2a4e7d";
+            }
+            else
+            {
+                access.LevelCode = 0;
+                access.RuleCode = 0;
+                access.RuleName = "View only selected options";
+                access.Color = "#999185";
+            }
+
+            return access;
+        }
+
+        public async Task<bool> ValidateAccess(int userId)
+        {
+            Guid privilege = Guid.Parse(_configuration.GetSection("Access")["SecretKey"]);
+            var user = await _userRepository.FindByIdAsync(userId);
+
+            if (user.Count == 0)
+                throw new Exception("A key não foi localizada em nossa base");
+
+            if (user[0].Active != true || user[0].ProfileId != privilege)
+                return false;
+
+            return true;
         }
 
         public List<string> HandleFeatureCodes(List<string>? featureCodes)

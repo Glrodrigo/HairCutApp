@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HairCut.Tools.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250315180746_CreateAccessTable")]
-    partial class CreateAccessTable
+    [Migration("20250316201439_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,8 +105,8 @@ namespace HairCut.Tools.Repository.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("ChangeUserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ChangeUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");

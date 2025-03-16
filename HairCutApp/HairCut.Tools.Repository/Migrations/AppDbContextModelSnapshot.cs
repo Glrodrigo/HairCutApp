@@ -103,8 +103,8 @@ namespace HairCut.Tools.Repository.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("ChangeUserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ChangeUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");

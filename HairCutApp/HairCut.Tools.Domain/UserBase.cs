@@ -22,7 +22,7 @@ namespace HairCut.Tools.Domain
         public Guid SessionId { get; set; }
         public Guid SecurityStamp { get; set; }
         public DateTime? LastAccess { get; set; }
-        public Guid ChangeUserId { get; set; }
+        public int ChangeUserId { get; set; }
         public Guid? ProfileId { get; set; }
         public int PasswordAttemptCount { get; set; }
         public DateTime CreateDate { get; set; }

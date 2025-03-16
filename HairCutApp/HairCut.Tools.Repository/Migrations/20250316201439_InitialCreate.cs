@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HairCut.Tools.Repository.Migrations
 {
-    public partial class CreateAccessTable : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,7 +57,7 @@ namespace HairCut.Tools.Repository.Migrations
                     SessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SecurityStamp = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LastAccess = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ChangeUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ChangeUserId = table.Column<int>(type: "int", nullable: false),
                     ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PasswordAttemptCount = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
