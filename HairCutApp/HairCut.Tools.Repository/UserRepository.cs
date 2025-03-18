@@ -58,6 +58,22 @@ namespace HairCut.Tools.Repository
             }
         }
 
+        public async Task<List<UserBase>> FindByResetCodeAsync(int resetCode)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Where(t => t.ResetPasswordCode == resetCode)
+                    .ToListAsync();
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar obter o usuário do banco de dados", ex);
+            }
+        }
+
         public async Task<bool> UpdateAsync(UserBase user)
         {
             try
