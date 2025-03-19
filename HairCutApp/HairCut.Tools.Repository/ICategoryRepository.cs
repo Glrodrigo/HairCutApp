@@ -6,5 +6,8 @@ namespace HairCut.Tools.Repository
     {
         Task<bool> InsertAsync(CategoryBase category);
         Task<List<CategoryBase>> FindByNameAsync(string name);
+        Task<List<CategoryBase>> FindByIdAsync(int id);
+        Task<bool> UpdateAsync(CategoryBase category);
+        Task<bool> DeleteAsync(CategoryBase category);
     }
 }

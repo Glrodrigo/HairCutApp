@@ -31,5 +31,19 @@ namespace HairCutApp.Controllers
                 return await ErrorResponseController.CreateExceptionResponse(this, exception);
             }
         }
+
+        [HttpDelete("delete", Name = "deleteCategory")]
+        public async Task<IActionResult> DeleteAsync(int userId, int id)
+        {
+            try
+            {
+                var result = await _categoryService.DeleteAsync(userId, id);
+                return await Task.FromResult(this.Ok(result));
+            }
+            catch (Exception exception)
+            {
+                return await ErrorResponseController.CreateExceptionResponse(this, exception);
+            }
+        }
     }
 }

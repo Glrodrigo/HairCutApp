@@ -45,5 +45,42 @@ namespace HairCut.Tools.Service
                 throw;
             }
         }
+
+        public async Task<bool> DeleteAsync(int userId, int id)
+        {
+            try
+            {
+                if (userId == 0 || id == 0)
+                    throw new Exception("A key está vazia ou inválida");
+
+                var user = await _userRepository.FindByIdAsync(userId);
+
+                if (user.Count == 0)
+                    throw new Exception("A key não foi localizada em nossa base");
+
+                var categories = await _categoryRepository.FindByIdAsync(id);
+
+                if (categories.Count == 0)
+                    throw new Exception("A key não foi localizada em nossa base");
+
+                var category = categories[0];
+
+                if (category.Active == false)
+                    throw new Exception("Categoria desativada");
+
+                category.Active = false;
+                category.ExclusionDate = DateTime.UtcNow;
+                category.EventDate = category.ExclusionDate;
+                category.ChangeUserId = userId;
+
+                var result = await _categoryRepository.UpdateAsync(category);
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+        }
     }
 }
