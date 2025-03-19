@@ -1,4 +1,6 @@
 ﻿
+using HairCut.Generals;
+
 namespace HairCut.Tools.Domain
 {
     public class AccessBase : Create
@@ -25,8 +27,8 @@ namespace HairCut.Tools.Domain
             if (string.IsNullOrEmpty(profileName) || profileName == "string")
                 throw new Exception("O perfil está em um formato inválido");
 
-            AccountName = accountName.ToUpper();
-            ProfileName = profileName.ToUpper();
+            AccountName = HandleFormat.CleanName(accountName.ToUpper());
+            ProfileName = HandleFormat.CleanName(profileName.ToUpper());
         }
     }
 }

@@ -47,7 +47,7 @@ namespace HairCut.Tools.Domain
                 throw new Exception("A Senha precisa conter uma letra maíuscula, um caracter especial e no mínimo cinco caracteres");
 
             CreateDate = DateTime.UtcNow;
-            Name = name.ToUpper();
+            Name = HandleFormat.CleanName(name.ToUpper());
             Email = email.ToLower();
             FirstName = name.Split(' ')[0];
             Active = true;

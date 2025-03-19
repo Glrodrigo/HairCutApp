@@ -245,44 +245,5 @@ namespace HairCut.Tools.Service
                 throw;
             }
         }
-
-        public async Task<bool> UserAuthorization(int userId)
-        {
-            try
-            {
-                var user = await _userRepository.FindByIdAsync(userId);
-
-                if (user.Count == 0)
-                    throw new Exception("A key não foi localizada em nossa base");
-
-                Guid privilege = Guid.Parse(_configuration.GetSection("Access")["SecretKey"]);
-
-                if (user[0].Active == true && user[0].ProfileId == privilege)
-                    return true;
-
-                return false;
-            }
-            catch (Exception exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<bool> ValidateUserAuthorization(int userId)
-        {
-            try
-            {
-                var authorization = await this.UserAuthorization(userId);
-
-                if (!authorization)
-                    throw new Exception("Acesso não autorizado");
-
-                return authorization;
-            }
-            catch (Exception exception)
-            {
-                throw;
-            }
-        }
     }
 }

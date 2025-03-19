@@ -1,4 +1,6 @@
 ﻿
+using HairCut.Generals;
+
 namespace HairCut.Tools.Domain
 {
     public class CategoryBase : Create
@@ -11,9 +13,9 @@ namespace HairCut.Tools.Domain
         {
 
             if (string.IsNullOrEmpty(name) || name == "string")
-                throw new Exception("A conta está em um formato inválido");
+                throw new Exception("O nome está em um formato inválido");
 
-            Name = name.ToUpper();
+            Name = HandleFormat.CleanName(name.ToUpper());
         }
     }
 }

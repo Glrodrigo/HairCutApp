@@ -22,7 +22,7 @@ namespace HairCut.Tools.Service
         {
             try
             {
-                var admin = await ValidateAccess(userId);
+                var admin = await AuthorizationLevel(userId);
 
                 if (!admin)
                     return false;
@@ -105,7 +105,7 @@ namespace HairCut.Tools.Service
         {
             try
             {
-                var admin = await ValidateAccess(id);
+                var admin = await AuthorizationLevel(id);
 
                 if (!admin)
                     return false;
@@ -143,7 +143,7 @@ namespace HairCut.Tools.Service
         {
             try
             {
-                var admin = await ValidateAccess(userId);
+                var admin = await AuthorizationLevel(userId);
 
                 if (!admin)
                     return false;
@@ -222,18 +222,25 @@ namespace HairCut.Tools.Service
             return access;
         }
 
-        public async Task<bool> ValidateAccess(int userId)
+        public async Task<bool> AuthorizationLevel(int userId)
         {
-            Guid privilege = Guid.Parse(_configuration.GetSection("Access")["SecretKey"]);
-            var user = await _userRepository.FindByIdAsync(userId);
+            try
+            {
+                Guid privilege = Guid.Parse(_configuration.GetSection("Access")["SecretKey"]);
+                var user = await _userRepository.FindByIdAsync(userId);
 
-            if (user.Count == 0)
-                throw new Exception("A key não foi localizada em nossa base");
+                if (user.Count == 0)
+                    throw new Exception("A key não foi localizada em nossa base");
 
-            if (user[0].Active != true || user[0].ProfileId != privilege)
-                return false;
+                if (user[0].Active != true || user[0].ProfileId != privilege)
+                    return false;
 
-            return true;
+                return true;
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
         }
 
         public List<string> HandleFeatureCodes(List<string>? featureCodes)
