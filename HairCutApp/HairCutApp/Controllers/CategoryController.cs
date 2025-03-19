@@ -32,6 +32,34 @@ namespace HairCutApp.Controllers
             }
         }
 
+        [HttpGet("all", Name = "allCategories")]
+        public async Task<IActionResult> GetAsync()
+        {
+            try
+            {
+                var result = await _categoryService.GetAsync();
+                return await Task.FromResult(this.Ok(result));
+            }
+            catch (Exception exception)
+            {
+                return await ErrorResponseController.CreateExceptionResponse(this, exception);
+            }
+        }
+
+        [HttpGet("byPage", Name = "byPageCategories")]
+        public async Task<IActionResult> GetByPageAsync(int pageNumber)
+        {
+            try
+            {
+                var result = await _categoryService.GetByPageAsync(pageNumber);
+                return await Task.FromResult(this.Ok(result));
+            }
+            catch (Exception exception)
+            {
+                return await ErrorResponseController.CreateExceptionResponse(this, exception);
+            }
+        }
+
         [HttpDelete("delete", Name = "deleteCategory")]
         public async Task<IActionResult> DeleteAsync(int userId, int id)
         {

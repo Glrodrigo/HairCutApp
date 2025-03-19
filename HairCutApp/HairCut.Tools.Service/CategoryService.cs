@@ -46,6 +46,56 @@ namespace HairCut.Tools.Service
             }
         }
 
+        public async Task<List<CategoryResult>> GetAsync()
+        {
+            try
+            {
+                var categories = await _categoryRepository.GetAsync();
+                List<CategoryResult> result = new List<CategoryResult>();
+
+                foreach (var cat in categories)
+                {
+                    CategoryResult category = new CategoryResult()
+                    {
+                        Id = cat.Id,
+                        Name = cat.Name
+                    };
+
+                    result.Add(category);
+                }
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<CategoryResult>> GetByPageAsync(int pageNumber)
+        {
+            if (pageNumber <= 0)
+                throw new Exception("A página está vazia ou inválida");
+
+            List<CategoryResult> result = new List<CategoryResult>();
+            var pageSize = 20;
+
+            var categories = await _categoryRepository.GetByPaginationAsync(pageNumber, pageSize);
+
+            foreach (var cat in categories)
+            {
+                CategoryResult category = new CategoryResult()
+                {
+                    Id = cat.Id,
+                    Name = cat.Name
+                };
+
+                result.Add(category);
+            }
+
+            return result;
+        }
+
         public async Task<bool> DeleteAsync(int userId, int id)
         {
             try

@@ -58,6 +58,34 @@ namespace HairCut.Tools.Repository
             }
         }
 
+        public async Task<List<CategoryBase>> GetAsync()
+        {
+            try
+            {
+                return await _context.Categories.ToListAsync() ?? new List<CategoryBase>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar obter as categorias do banco de dados", ex);
+            }
+        }
+
+        public async Task<List<CategoryBase>> GetByPaginationAsync(int pageNumber, int pageSize)
+        {
+            try
+            {
+                return await _context.Categories
+                                     .Where(c => c.Active == true)
+                                     .Skip((pageNumber - 1) * pageSize)
+                                     .Take(pageSize)
+                                     .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar obter filtro do banco de dados", ex);
+            }
+        }
+
         public async Task<bool> UpdateAsync(CategoryBase category)
         {
             try
