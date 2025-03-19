@@ -1,7 +1,7 @@
 ﻿
 namespace HairCut.Tools.Domain
 {
-    public class AccessBase
+    public class AccessBase : Create
     {
         public int Id { get; set; }
         public Guid AccountId { get; set; }
@@ -12,12 +12,8 @@ namespace HairCut.Tools.Domain
         public int RuleCode { get; set; }
         public string RuleName { get; set; }
         public string Color { get; set; }
-        public DateTime CreateDate { get; set; }
         public int CreateUserId { get; set; }
-        public int ChangeUserId { get; set; }
-        public DateTime? EventDate { get; set; }
-        public DateTime? ExclusionDate { get; set; }
-        public bool Active { get; set; }
+
 
 
         public AccessBase(string accountName, string profileName)

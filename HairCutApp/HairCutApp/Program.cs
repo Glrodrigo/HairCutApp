@@ -13,6 +13,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
 builder.Services.AddScoped<IAccessRepository, AccessRepository>();
 builder.Services.AddScoped<IAccessService, AccessService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var connection = builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 builder.Services.AddDbContext<AppDbContext>(options =>

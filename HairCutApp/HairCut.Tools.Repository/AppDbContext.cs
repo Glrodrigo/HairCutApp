@@ -7,6 +7,7 @@ namespace HairCut.Tools.Repository
     {
         public DbSet<UserBase> Users { get; set; }
         public DbSet<AccessBase> Access { get; set; }
+        public DbSet<CategoryBase> Categories { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
@@ -49,6 +50,20 @@ namespace HairCut.Tools.Repository
 
             modelBuilder.Entity<AccessBase>()
                 .Property(b => b.ProfileName)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            // Another model
+            modelBuilder.Entity<CategoryBase>()
+                .HasKey(c => c.Id);
+
+            modelBuilder.Entity<CategoryBase>()
+                .Property(c => c.Id)
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            modelBuilder.Entity<CategoryBase>()
+                .Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(200);
 

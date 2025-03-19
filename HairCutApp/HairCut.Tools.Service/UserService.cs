@@ -1,4 +1,5 @@
-﻿using HairCut.Tools.Domain;
+﻿using HairCut.Generals;
+using HairCut.Tools.Domain;
 using HairCut.Tools.Repository;
 using Microsoft.Extensions.Configuration;
 
@@ -101,6 +102,97 @@ namespace HairCut.Tools.Service
             }
         }
 
+        public async Task<bool> LogoutAsync(int userId)
+        {
+            try
+            {
+                if (userId == 0)
+                    throw new Exception("A key está vazia ou inválida");
+
+                var users = await _userRepository.FindByIdAsync(userId);
+
+                if (users.Count == 0)
+                    throw new Exception("A key não foi localizada em nossa base");
+
+                var user = users[0];
+
+                if (user.SecurityStamp == Guid.Empty || user.SignOut == true)
+                    throw new Exception("O usuário não possui login ativo");
+
+                user.SecurityStamp = Guid.Empty;
+                user.LastAccess = DateTime.Now;
+                user.SignOut = true;
+
+                var result = await _userRepository.UpdateAsync(user);
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> ChangeLoginAsync(int receivedCode, string password, string? email)
+        {
+            try
+            {
+                bool result = false;
+                var authenticateService = new AuthenticateService(_configuration);
+
+                if (receivedCode == 0)
+                    return result;
+
+                var users = await _userRepository.FindByResetCodeAsync(receivedCode);
+
+                if (users.Count == 0)
+                    throw new Exception("O e-mail não foi localizada em nossa base");
+
+                var user = users[0];
+
+                if (user.SentResetPasswordCode != true || user.ResetPassword != true)
+                    return result;
+
+                if (!string.IsNullOrEmpty(email))
+                {
+                    if (!StringFormat.isEmail(email))
+                        throw new Exception("O e-mail está em um formato inválido");
+
+                    user.Email = email.ToLower();
+                }
+
+                if (string.IsNullOrEmpty(password) || password == "string")
+                    throw new Exception("A senha está vazia ou inválida");
+
+                if (!StringFormat.isValidPassword(password))
+                    throw new Exception("A Senha precisa conter uma letra maíuscula, um caracter especial e no mínimo cinco caracteres");
+
+                if (user.Password != password)
+                {
+                    user.Password = password;
+                    var authenticate = authenticateService.PasswordByteAsync(user);
+
+                    user.PasswordHash = authenticate.PasswordHash;
+                    user.PasswordSalt = authenticate.PasswordSalt;
+                    user.ChangeUserId = user.Id;
+                    user.EventDate = DateTime.UtcNow;
+                    user.SecurityStamp = Guid.Empty;
+                    user.LastAccess = user.EventDate;
+                    user.ResetPassword = false;
+                    user.ResetPasswordCode = 0;
+                    user.SignOut = true;
+
+                    result = await _userRepository.UpdateAsync(user);
+                }
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<bool> UpdateLoginAsync(UserBase user)
         {
             try
@@ -111,6 +203,38 @@ namespace HairCut.Tools.Service
                 user.SecurityStamp = Guid.NewGuid();
                 user.AccessDate = DateTime.UtcNow;
                 user.EventDate = user.AccessDate;
+
+                var result = await _userRepository.UpdateAsync(user);
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(int userId)
+        {
+            try
+            {
+                if (userId == 0)
+                    throw new Exception("A key está vazia ou inválida");
+
+                var users = await _userRepository.FindByIdAsync(userId);
+
+                if (users.Count == 0)
+                    throw new Exception("A key não foi localizada em nossa base");
+
+                var user = users[0];
+
+                if (user.Active == false)
+                    throw new Exception("Usuário desativado");
+
+                user.Active = false;
+                user.ExclusionDate = DateTime.UtcNow;
+                user.SignOut = true;
+                user.ChangeUserId = userId;
 
                 var result = await _userRepository.UpdateAsync(user);
 

@@ -2,7 +2,7 @@
 
 namespace HairCut.Tools.Domain
 {
-    public class UserBase
+    public class UserBase : Create
     {
         public int Id { get; private set; }
         public string Name { get; set; }
@@ -12,23 +12,21 @@ namespace HairCut.Tools.Domain
         public string FirstName { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-        public bool Active { get; set; }
         public string? Hash { get; set; }
         public DateTime? HashDate { get; set; }
         public int AccessCount { get; set; }
         public int AccessFailed { get; set; }
         public bool SignOut { get; set; }
         public bool ResetPassword { get; set; }
+        public bool SentResetPasswordCode { get; set; }
+        public int ResetPasswordCode { get; set; }
         public Guid SessionId { get; set; }
         public Guid SecurityStamp { get; set; }
         public DateTime? LastAccess { get; set; }
-        public int ChangeUserId { get; set; }
         public Guid? ProfileId { get; set; }
         public int PasswordAttemptCount { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime? EventDate { get; set; }
+        public DateTime? ResetPasswordCreateDate { get; set; }
         public DateTime? AccessDate { get; set; }
-        public DateTime? ExclusionDate { get; set; }
 
 
         public UserBase(string name, string email, string password)

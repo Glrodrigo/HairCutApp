@@ -70,7 +70,7 @@ namespace HairCutApp.Controllers
             }
         }
 
-        [HttpDelete("delete", Name = "DeleteProfile")]
+        [HttpDelete("delete", Name = "deleteProfile")]
         public async Task<IActionResult> DeleteAsync(int userId, Guid profileId)
         {
             try
