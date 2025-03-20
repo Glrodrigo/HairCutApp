@@ -9,6 +9,7 @@ namespace HairCut.Tools.Repository
         public DbSet<AccessBase> Access { get; set; }
         public DbSet<CategoryBase> Categories { get; set; }
         public DbSet<ProductBase> Products { get; set; }
+        public DbSet<BucketBase> Buckets { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
@@ -93,6 +94,23 @@ namespace HairCut.Tools.Repository
 
             modelBuilder.Entity<ProductBase>()
                 .Property(c => c.Total)
+                .IsRequired();
+
+            // Another model
+            modelBuilder.Entity<BucketBase>()
+                .HasKey(d => d.Id);
+
+            modelBuilder.Entity<BucketBase>()
+                .Property(d => d.Id)
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            modelBuilder.Entity<BucketBase>()
+                .Property(d => d.CreateUserId)
+                .IsRequired();
+
+            modelBuilder.Entity<BucketBase>()
+                .Property(d => d.ImageId)
                 .IsRequired();
 
             base.OnModelCreating(modelBuilder);

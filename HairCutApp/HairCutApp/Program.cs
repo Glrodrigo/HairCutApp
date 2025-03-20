@@ -1,8 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using HairCut.Tools.Repository;
 using HairCut.Tools.Service;
+using HairCutApp;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddInfra(builder.Configuration);
+builder.Services.AddSwaggerGeneral(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -17,6 +22,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IBucketRepository, BucketRepository>();
+builder.Services.AddScoped<IBucketService, BucketService>();
 builder.Services.AddMemoryCache();
 
 var connection = builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
@@ -50,8 +57,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.UseCors(builder =>

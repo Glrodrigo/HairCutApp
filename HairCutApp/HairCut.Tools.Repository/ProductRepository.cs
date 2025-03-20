@@ -74,6 +74,22 @@ namespace HairCut.Tools.Repository
             }
         }
 
+        public async Task<List<ProductBase>> FindByImageIdAsync(Guid imageId)
+        {
+            try
+            {
+                var products = await _context.Products
+                    .Where(t => t.ImageId == imageId)
+                    .ToListAsync();
+
+                return products;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar obter o produto do banco de dados", ex);
+            }
+        }
+
         public async Task<List<ProductBase>> GetAsync()
         {
             try

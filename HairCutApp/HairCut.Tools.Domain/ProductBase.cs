@@ -11,6 +11,7 @@ namespace HairCut.Tools.Domain
         public string Option { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
+        public Guid ImageId { get; set; }
         public string? ImageUrl { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }

@@ -2,7 +2,6 @@
 using HairCut.Tools.Domain;
 using HairCut.Tools.Repository;
 using Microsoft.Extensions.Configuration;
-using System.Xml.Linq;
 
 namespace HairCut.Tools.Service
 {
@@ -42,6 +41,7 @@ namespace HairCut.Tools.Service
                 if (existsProduct.Count > 0)
                     throw new Exception("Produto já existente");
 
+                product.ImageId = Guid.NewGuid();
                 product.CreateDate = DateTime.UtcNow;
                 product.Active = true;
                 product.CreateUserId = userId;
