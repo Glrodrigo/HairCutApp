@@ -17,6 +17,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddMemoryCache();
 
 var connection = builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 builder.Services.AddDbContext<AppDbContext>(options =>

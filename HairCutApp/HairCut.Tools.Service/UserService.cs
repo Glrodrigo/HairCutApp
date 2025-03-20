@@ -1,6 +1,7 @@
 ﻿using HairCut.Generals;
 using HairCut.Tools.Domain;
 using HairCut.Tools.Repository;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
 namespace HairCut.Tools.Service
@@ -10,12 +11,14 @@ namespace HairCut.Tools.Service
         private IConfiguration _configuration { get; set; }
         private readonly IUserRepository _userRepository;
         private readonly IAuthenticateService _authenticateService;
+        private readonly IMemoryCache _cache;
 
-        public UserService(IConfiguration configuration, IUserRepository userRepository, IAuthenticateService authenticateService) 
+        public UserService(IConfiguration configuration, IUserRepository userRepository, IAuthenticateService authenticateService, IMemoryCache cache) 
         {
             _configuration = configuration;
             _userRepository = userRepository;
             _authenticateService = authenticateService;
+            _cache = cache;
         }
 
         public async Task<bool> CreateAsync(string name, string email, string password)
@@ -80,6 +83,11 @@ namespace HairCut.Tools.Service
 
                 email = email.ToLower();
 
+                var cachedToken = await GetCache(email);
+
+                if (cachedToken != null)
+                    return cachedToken;
+
                 var user = await this.AuthenticateUserAsync(email, password);
 
                 if (user == null)
@@ -94,7 +102,7 @@ namespace HairCut.Tools.Service
 
                 UserToken userToken = new UserToken() { Token = token, Id = user.Id };
 
-                return userToken;
+                return await SaveCache(email, userToken);
             }
             catch (Exception exception)
             {
@@ -244,6 +252,31 @@ namespace HairCut.Tools.Service
             {
                 throw;
             }
+        }
+
+        private async Task<UserToken> SaveCache(string email, UserToken userToken)
+        {
+            string cacheKey = $"Login_{email}";
+            _cache.Remove(cacheKey);
+
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromHours(5));
+
+            _cache.Set(cacheKey, userToken, cacheOptions);
+
+            return userToken;
+        }
+
+        private async Task<UserToken?> GetCache(string email)
+        {
+            string cacheKey = $"Login_{email}";
+
+            if (_cache.TryGetValue(cacheKey, out UserToken userToken))
+            {
+                return userToken;
+            }
+
+            return null;
         }
     }
 }
