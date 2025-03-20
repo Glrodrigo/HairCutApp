@@ -11,13 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "002 - Core", "002 - Core", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "003 - Shared", "003 - Shared", "{D8FDCB91-D561-4295-AE98-3C58C295F367}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairCut.Tools.Domain", "HairCut.Tools.Domain\HairCut.Tools.Domain.csproj", "{8FE6D657-E9BF-4787-9F21-5D428DB024FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HairCut.Tools.Domain", "HairCut.Tools.Domain\HairCut.Tools.Domain.csproj", "{8FE6D657-E9BF-4787-9F21-5D428DB024FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairCut.Tools.Service", "HairCut.Tools.Service\HairCut.Tools.Service.csproj", "{AD76F215-E6DE-418B-9E4D-2FA82089ABBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HairCut.Tools.Service", "HairCut.Tools.Service\HairCut.Tools.Service.csproj", "{AD76F215-E6DE-418B-9E4D-2FA82089ABBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairCut.Generals", "HairCut.Generals\HairCut.Generals.csproj", "{E4AC1802-1C47-418D-BE14-3F1B35D58EAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HairCut.Generals", "HairCut.Generals\HairCut.Generals.csproj", "{E4AC1802-1C47-418D-BE14-3F1B35D58EAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairCut.Tools.Repository", "HairCut.Tools.Repository\HairCut.Tools.Repository.csproj", "{8F934EAD-BD59-4223-B634-68B7A2E039FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HairCut.Tools.Repository", "HairCut.Tools.Repository\HairCut.Tools.Repository.csproj", "{8F934EAD-BD59-4223-B634-68B7A2E039FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairCutApp.Tests", "HairCutAppTests\HairCutApp.Tests.csproj", "{2C856B0E-BD70-4474-8A52-70CC4FE7A09B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{8F934EAD-BD59-4223-B634-68B7A2E039FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F934EAD-BD59-4223-B634-68B7A2E039FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F934EAD-BD59-4223-B634-68B7A2E039FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C856B0E-BD70-4474-8A52-70CC4FE7A09B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C856B0E-BD70-4474-8A52-70CC4FE7A09B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C856B0E-BD70-4474-8A52-70CC4FE7A09B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C856B0E-BD70-4474-8A52-70CC4FE7A09B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
