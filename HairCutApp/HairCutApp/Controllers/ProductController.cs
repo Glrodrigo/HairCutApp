@@ -59,5 +59,75 @@ namespace HairCutApp.Controllers
                 return await ErrorResponseController.CreateExceptionResponse(this, exception);
             }
         }
+
+        [HttpGet("findByCategory", Name = "findByCategoryProducts")]
+        public async Task<IActionResult> FindByCategoryAsync(int pageNumber, int categoryId)
+        {
+            try
+            {
+                var result = await _productService.FindByCategoryAsync(pageNumber, categoryId);
+                return await Task.FromResult(this.Ok(result));
+            }
+            catch (Exception exception)
+            {
+                return await ErrorResponseController.CreateExceptionResponse(this, exception);
+            }
+        }
+
+        [HttpGet("findById", Name = "findByIdProduct")]
+        public async Task<IActionResult> FindByIdAsync(int id)
+        {
+            try
+            {
+                var result = await _productService.FindByIdAsync(id);
+                return await Task.FromResult(this.Ok(result));
+            }
+            catch (Exception exception)
+            {
+                return await ErrorResponseController.CreateExceptionResponse(this, exception);
+            }
+        }
+
+        [HttpGet("findByName", Name = "findByNameProduct")]
+        public async Task<IActionResult> FindByNameAsync(string name)
+        {
+            try
+            {
+                var result = await _productService.FindByNameAsync(name);
+                return await Task.FromResult(this.Ok(result));
+            }
+            catch (Exception exception)
+            {
+                return await ErrorResponseController.CreateExceptionResponse(this, exception);
+            }
+        }
+
+        [HttpPut("changeProduct", Name = "changeProduct")]
+        public async Task<IActionResult> ChangeProductAsync([FromBody] ProductParams product)
+        {
+            try
+            {
+                var result = await _productService.ChangeAsync(product);
+                return await Task.FromResult(this.Ok(result));
+            }
+            catch (Exception exception)
+            {
+                return await ErrorResponseController.CreateExceptionResponse(this, exception);
+            }
+        }
+
+        [HttpDelete("delete", Name = "deleteProduct")]
+        public async Task<IActionResult> DeleteAsync(int userId, int id)
+        {
+            try
+            {
+                var result = await _productService.DeleteAsync(userId, id);
+                return await Task.FromResult(this.Ok(result));
+            }
+            catch (Exception exception)
+            {
+                return await ErrorResponseController.CreateExceptionResponse(this, exception);
+            }
+        }
     }
 }
