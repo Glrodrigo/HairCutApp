@@ -1,0 +1,14 @@
+bin/
+obj/
+*.user
+*.vs/
+*.suo
+*.user
+*.sln.docstates
+*.nuget.props
+*.nuget.targets
+*.log
+*.vspscc
+*.pfx
+.vscode/
+.vs
