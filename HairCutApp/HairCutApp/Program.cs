@@ -1,7 +1,9 @@
+using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
 using HairCut.Tools.Repository;
 using HairCut.Tools.Service;
 using HairCutApp;
+using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,14 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IBucketRepository, BucketRepository>();
 builder.Services.AddScoped<IBucketService, BucketService>();
 builder.Services.AddMemoryCache();
+
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
 
 var connection = builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -65,5 +75,7 @@ app.UseCors(builder =>
     builder.AllowAnyOrigin()
            .AllowAnyMethod()
            .AllowAnyHeader());
+
+app.UseIpRateLimiting();
 
 app.Run();

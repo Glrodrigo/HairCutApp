@@ -1,6 +1,7 @@
 ﻿using HairCut.Tools.Domain;
 using HairCut.Tools.Service;
 using HairCutApp.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HairCutApp.Controllers
@@ -17,6 +18,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpPost("create", Name = "createProduct")]
+        [Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] ProductDomain product)
         {
             try
@@ -33,6 +35,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpGet("all", Name = "allProducts")]
+        [Authorize]
         public async Task<IActionResult> GetAsync()
         {
             try
@@ -47,6 +50,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpGet("byPage", Name = "byPageProducts")]
+        [Authorize]
         public async Task<IActionResult> GetByPageAsync(int pageNumber)
         {
             try
@@ -61,6 +65,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpGet("findByCategory", Name = "findByCategoryProducts")]
+        [Authorize]
         public async Task<IActionResult> FindByCategoryAsync(int pageNumber, int categoryId)
         {
             try
@@ -75,6 +80,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpGet("findById", Name = "findByIdProduct")]
+        [Authorize]
         public async Task<IActionResult> FindByIdAsync(int id)
         {
             try
@@ -89,6 +95,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpGet("findByName", Name = "findByNameProduct")]
+        [Authorize]
         public async Task<IActionResult> FindByNameAsync(string name)
         {
             try
@@ -103,6 +110,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpPut("changeProduct", Name = "changeProduct")]
+        [Authorize]
         public async Task<IActionResult> ChangeProductAsync([FromBody] ProductParams product)
         {
             try
@@ -117,6 +125,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpDelete("delete", Name = "deleteProduct")]
+        [Authorize]
         public async Task<IActionResult> DeleteAsync(int userId, int id)
         {
             try

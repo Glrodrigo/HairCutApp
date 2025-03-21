@@ -1,6 +1,7 @@
 ﻿using HairCut.Tools.Domain;
 using HairCut.Tools.Service;
 using HairCutApp.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HairCutApp.Controllers
@@ -17,6 +18,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpPost("create", Name = "createCategory")]
+        [Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] CategoryDomain category)
         {
             try
@@ -33,6 +35,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpGet("all", Name = "allCategories")]
+        [Authorize]
         public async Task<IActionResult> GetAsync()
         {
             try
@@ -47,6 +50,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpGet("byPage", Name = "byPageCategories")]
+        [Authorize]
         public async Task<IActionResult> GetByPageAsync(int pageNumber)
         {
             try
@@ -61,6 +65,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpDelete("delete", Name = "deleteCategory")]
+        [Authorize]
         public async Task<IActionResult> DeleteAsync(int userId, int id)
         {
             try

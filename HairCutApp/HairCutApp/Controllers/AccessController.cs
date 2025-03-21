@@ -2,6 +2,7 @@
 using HairCut.Tools.Service;
 using Microsoft.AspNetCore.Mvc;
 using HairCut.Tools.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HairCutApp.Controllers
 {
@@ -17,6 +18,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpPost("create", Name = "createAccess")]
+        [Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] AccessDomain access)
         {
             try
@@ -37,6 +39,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpPut("change", Name = "changeAccess")]
+        [Authorize]
         public async Task<IActionResult> ChangeAsync([FromBody] AccessChangeParams access)
         {
             try
@@ -57,6 +60,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpPut("changeUser", Name = "changeUserAccess")]
+        [Authorize]
         public async Task<IActionResult> ChangeUserAccessAsync([FromBody] AccessChangeUserParams access)
         {
             try
@@ -71,6 +75,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpDelete("delete", Name = "deleteProfile")]
+        [Authorize]
         public async Task<IActionResult> DeleteAsync(int userId, Guid profileId)
         {
             try
