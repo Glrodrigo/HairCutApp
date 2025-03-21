@@ -36,6 +36,7 @@ namespace HairCut.Tools.Service
                 var passwordContent = _authenticateService.PasswordByteAsync(user);
                 user.PasswordSalt = passwordContent.PasswordSalt;
                 user.PasswordHash = passwordContent.PasswordHash;
+                user.Password = UserPassword(user);
 
                 if (user != null)
                     result = await _userRepository.InsertAsync(user);
@@ -166,7 +167,8 @@ namespace HairCut.Tools.Service
                     if (!StringFormat.isEmail(email))
                         throw new Exception("O e-mail está em um formato inválido");
 
-                    user.Email = email.ToLower();
+                    if (user.Email != email)
+                        user.Email = email.ToLower();
                 }
 
                 if (string.IsNullOrEmpty(password) || password == "string")
@@ -182,6 +184,7 @@ namespace HairCut.Tools.Service
 
                     user.PasswordHash = authenticate.PasswordHash;
                     user.PasswordSalt = authenticate.PasswordSalt;
+                    user.Password = UserPassword(user);
                     user.ChangeUserId = user.Id;
                     user.EventDate = DateTime.UtcNow;
                     user.SecurityStamp = Guid.Empty;
@@ -277,6 +280,12 @@ namespace HairCut.Tools.Service
             }
 
             return null;
+        }
+
+        private string UserPassword(UserBase user)
+        {
+            string password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            return password;
         }
     }
 }

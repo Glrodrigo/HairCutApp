@@ -31,6 +31,7 @@ namespace HairCut.Tools.Repository
             try
             {
                 var categories = await _context.Categories
+                    .AsNoTracking()
                     .Where(t => t.Name == name)
                     .ToListAsync();
 
@@ -62,7 +63,7 @@ namespace HairCut.Tools.Repository
         {
             try
             {
-                return await _context.Categories.ToListAsync() ?? new List<CategoryBase>();
+                return await _context.Categories.AsNoTracking().ToListAsync() ?? new List<CategoryBase>();
             }
             catch (Exception ex)
             {
@@ -75,10 +76,11 @@ namespace HairCut.Tools.Repository
             try
             {
                 return await _context.Categories
-                                     .Where(c => c.Active == true)
-                                     .Skip((pageNumber - 1) * pageSize)
-                                     .Take(pageSize)
-                                     .ToListAsync();
+                    .AsNoTracking()
+                    .Where(c => c.Active == true)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {

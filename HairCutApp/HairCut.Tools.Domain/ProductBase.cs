@@ -5,7 +5,6 @@ namespace HairCut.Tools.Domain
 {
     public class ProductBase : Create
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string BrandName { get; set; }
         public string Option { get; set; }

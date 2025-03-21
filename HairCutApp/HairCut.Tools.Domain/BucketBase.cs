@@ -1,9 +1,8 @@
 ﻿
 namespace HairCut.Tools.Domain
 {
-    public class BucketBase
+    public class BucketBase : Entity
     {
-        public int Id { get; set; }
         public Guid ImageId { get; set; }
         public int CreateUserId { get; set; }
         public string Path { get; set; }

@@ -31,6 +31,7 @@ namespace HairCut.Tools.Repository
             try
             {
                 var products = await _context.Products
+                    .AsNoTracking()
                     .Where(t => t.Name == name && t.BrandName == brandName && t.Option == option)
                     .ToListAsync();
 
@@ -47,6 +48,7 @@ namespace HairCut.Tools.Repository
             try
             {
                 var products = await _context.Products
+                    .AsNoTracking()
                     .Where(t => t.Name == name)
                     .ToListAsync();
 
@@ -94,7 +96,7 @@ namespace HairCut.Tools.Repository
         {
             try
             {
-                return await _context.Products.ToListAsync() ?? new List<ProductBase>();
+                return await _context.Products.AsNoTracking().ToListAsync() ?? new List<ProductBase>();
             }
             catch (Exception ex)
             {
@@ -113,10 +115,11 @@ namespace HairCut.Tools.Repository
                 int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
 
                 var products = await _context.Products
-                                     .Where(p => p.Active == true)
-                                     .Skip((pageNumber - 1) * pageSize)
-                                     .Take(pageSize)
-                                     .ToListAsync();
+                    .AsNoTracking()
+                    .Where(p => p.Active == true)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
 
                 return (products, totalPages);
             }
@@ -137,10 +140,11 @@ namespace HairCut.Tools.Repository
                 int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
 
                 var products = await _context.Products
-                                     .Where(p => p.Active == true && p.CategoryId == categoryId)
-                                     .Skip((pageNumber - 1) * pageSize)
-                                     .Take(pageSize)
-                                     .ToListAsync();
+                    .AsNoTracking()
+                    .Where(p => p.Active == true && p.CategoryId == categoryId)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
 
                 return (products, totalPages);
             }

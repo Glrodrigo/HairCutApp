@@ -1,10 +1,9 @@
 ﻿
 namespace HairCut.Tools.Domain
 {
-    public class UserToken
+    public class UserToken : Entity
     {
         public string Token { get; set; }
-        public int Id { get; set; }
     }
 
     public class PasswordByte

@@ -1,7 +1,7 @@
 ﻿
 namespace HairCut.Tools.Domain
 {
-    public class Create
+    public abstract class Create : Entity
     {
         public DateTime CreateDate { get; set; }
         public int ChangeUserId { get; set; }

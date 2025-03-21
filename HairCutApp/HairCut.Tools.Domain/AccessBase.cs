@@ -5,7 +5,6 @@ namespace HairCut.Tools.Domain
 {
     public class AccessBase : Create
     {
-        public int Id { get; set; }
         public Guid AccountId { get; set; }
         public string AccountName { get; set; }
         public Guid ProfileId { get; set; }

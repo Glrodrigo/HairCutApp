@@ -31,6 +31,7 @@ namespace HairCut.Tools.Repository
             try
             {
                 var accesses = await _context.Access
+                    .AsNoTracking()
                     .Where(t => t.AccountName == accountName || t.ProfileName == profileName)
                     .ToListAsync();
 
