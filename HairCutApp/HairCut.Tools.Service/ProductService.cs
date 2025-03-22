@@ -159,7 +159,7 @@ namespace HairCut.Tools.Service
             List<ProductResult> result = new List<ProductResult>();
 
             if (id <= 0)
-                throw new Exception("A página ou categoria está vazia ou inválida");
+                throw new Exception("A key está vazia ou inválida");
 
             var products = await _productRepository.FindByIdAsync(id);
 

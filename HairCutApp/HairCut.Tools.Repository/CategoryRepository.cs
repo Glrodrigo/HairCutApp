@@ -101,19 +101,5 @@ namespace HairCut.Tools.Repository
                 throw new Exception("Erro ao tentar atualizar categoria", ex);
             }
         }
-
-        public async Task<bool> DeleteAsync(CategoryBase category)
-        {
-            try
-            {
-                _context.Categories.Remove(category);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao tentar deletar categoria", ex);
-            }
-        }
     }
 }

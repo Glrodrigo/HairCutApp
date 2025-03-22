@@ -1,7 +1,7 @@
 ﻿
 namespace HairCut.Tools.Domain
 {
-    public abstract class Entity
+    public class Entity
     {
         public int Id { get; set; }
     }

@@ -10,6 +10,5 @@ namespace HairCut.Tools.Repository
         Task<List<CategoryBase>> GetAsync();
         Task<List<CategoryBase>> GetByPaginationAsync(int pageNumber, int pageSize);
         Task<bool> UpdateAsync(CategoryBase category);
-        Task<bool> DeleteAsync(CategoryBase category);
     }
 }

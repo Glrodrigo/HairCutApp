@@ -10,6 +10,8 @@ namespace HairCut.Tools.Repository
         public DbSet<CategoryBase> Categories { get; set; }
         public DbSet<ProductBase> Products { get; set; }
         public DbSet<BucketBase> Buckets { get; set; }
+        public DbSet<ItemBase> Items { get; set; }
+        public DbSet<OrderBase> Orders { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
@@ -36,7 +38,7 @@ namespace HairCut.Tools.Repository
                 .Property(a => a.Email)
                 .IsRequired();
 
-            // Another model
+
             modelBuilder.Entity<AccessBase>()
                 .HasKey(b => b.Id);
 
@@ -55,7 +57,7 @@ namespace HairCut.Tools.Repository
                 .IsRequired()
                 .HasMaxLength(200);
 
-            // Another model
+
             modelBuilder.Entity<CategoryBase>()
                 .HasKey(c => c.Id);
 
@@ -69,7 +71,7 @@ namespace HairCut.Tools.Repository
                 .IsRequired()
                 .HasMaxLength(200);
 
-            // Another model
+
             modelBuilder.Entity<ProductBase>()
                 .HasKey(c => c.Id);
 
@@ -96,7 +98,7 @@ namespace HairCut.Tools.Repository
                 .Property(c => c.Total)
                 .IsRequired();
 
-            // Another model
+
             modelBuilder.Entity<BucketBase>()
                 .HasKey(d => d.Id);
 
@@ -111,6 +113,36 @@ namespace HairCut.Tools.Repository
 
             modelBuilder.Entity<BucketBase>()
                 .Property(d => d.ImageId)
+                .IsRequired();
+
+
+            modelBuilder.Entity<ItemBase>()
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<ItemBase>()
+                .Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            modelBuilder.Entity<ItemBase>()
+                .Property(e => e.Quantity)
+                .IsRequired();
+
+
+            modelBuilder.Entity<OrderBase>()
+                .HasKey(f => f.Id);
+
+            modelBuilder.Entity<OrderBase>()
+                .Property(f => f.Id)
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            modelBuilder.Entity<OrderBase>()
+                .Property(f => f.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<OrderBase>()
+                .Property(f => f.Status)
                 .IsRequired();
 
             base.OnModelCreating(modelBuilder);
