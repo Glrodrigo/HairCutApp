@@ -50,18 +50,9 @@
             { "Caminho de arquivo não encontrado", "00035" },
             { "Não foi possível adicionar a imagem no momento", "00036" },
             { "Ocorreu um erro ao tentar obter o usuário do banco de dados", "00037" },
-            { "Erro ao tentar atualizar usuário", "00038" }
-            //{ "Registro de pessoas contatadas não enviado", "00015" },
-            //{ "Registro de pessoas contatadas incorreto", "00016" },
-            //{ "Território preenchido não encontrado", "00017" },
-            //{ "O bloco já possui cadastro", "00018" },
-            //{ "A key de território está vazia ou inválida", "00019" },
-            //{ "O bloco está sem a quadra preenchida corretamente", "00021" },
-            //{ "Os números não estão preenchidos corretamente", "00022" },
-            //{ "O território está sem as quadras preenchidas corretamente", "00023" },
-            //{ "O território já possui cadastro", "00024" },
-            //{ "O território não possui cadastro", "00025" },
-            //{ "Território desativado", "00026" },
+            { "Erro ao tentar atualizar usuário", "00038" },
+            { "A ordem não foi localizada em nossa base", "00039" },
+            { "Sem itens adicionados ao carrinho", "00040" }
         };
 
         public static ErrorDomain GetError(string error)

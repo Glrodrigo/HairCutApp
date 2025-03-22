@@ -87,129 +87,157 @@ namespace HairCut.Tools.Service
 
         public async Task<ProductTotalResults> GetByPageAsync(int pageNumber)
         {
-            ProductTotalResults result = new ProductTotalResults();
-            var pageSize = 20;
-
-            if (pageNumber <= 0)
-                throw new Exception("A página está vazia ou inválida");
-
-            var (products, totalPages) = await _productRepository.GetByPaginationAsync(pageNumber, pageSize);
-
-            foreach (var prod in products)
+            try
             {
-                ProductResult product = new ProductResult()
+                ProductTotalResults result = new ProductTotalResults();
+                var pageSize = 20;
+
+                if (pageNumber <= 0)
+                    throw new Exception("A página está vazia ou inválida");
+
+                var (products, totalPages) = await _productRepository.GetByPaginationAsync(pageNumber, pageSize);
+
+                foreach (var prod in products)
                 {
-                    Name = prod.Name,
-                    BrandName = prod.BrandName,
-                    Option = prod.Option,
-                    Price = prod.Price,
-                    Image = prod.ImageUrl,
-                    CategoryName = prod.CategoryName,
-                    Total = prod.Total
-                };
+                    ProductResult product = new ProductResult()
+                    {
+                        Name = prod.Name,
+                        BrandName = prod.BrandName,
+                        Option = prod.Option,
+                        Price = prod.Price,
+                        Image = prod.ImageUrl,
+                        CategoryName = prod.CategoryName,
+                        Total = prod.Total
+                    };
 
-                result.Products.Add(product);
+                    result.Products.Add(product);
+                }
+
+                if (products.Count > 0)
+                    result.TotalPages = totalPages;
+
+                return result;
             }
-
-            if (products.Count > 0)
-                result.TotalPages = totalPages;
-
-            return result;
+            catch (Exception exception)
+            {
+                throw;
+            }
         }
 
         public async Task<ProductTotalResults> FindByCategoryAsync(int pageNumber, int categoryId)
         {
-            ProductTotalResults result = new ProductTotalResults();
-            var pageSize = 20;
-
-            if (pageNumber <= 0 || categoryId <= 0)
-                throw new Exception("A página ou categoria está vazia ou inválida");
-
-            var categories = await _categoryRepository.FindByIdAsync(categoryId);
-
-            if (categories.Count == 0)
-                throw new Exception("Categoria não encontrada");
-
-            var (products, totalPages) = await _productRepository.FindByCategoryAsync(pageNumber, pageSize, categoryId);
-
-            foreach (var prod in products)
+            try
             {
-                ProductResult product = new ProductResult()
+                ProductTotalResults result = new ProductTotalResults();
+                var pageSize = 20;
+
+                if (pageNumber <= 0 || categoryId <= 0)
+                    throw new Exception("A página ou categoria está vazia ou inválida");
+
+                var categories = await _categoryRepository.FindByIdAsync(categoryId);
+
+                if (categories.Count == 0)
+                    throw new Exception("Categoria não encontrada");
+
+                var (products, totalPages) = await _productRepository.FindByCategoryAsync(pageNumber, pageSize, categoryId);
+
+                foreach (var prod in products)
                 {
-                    Name = prod.Name,
-                    BrandName = prod.BrandName,
-                    Option = prod.Option,
-                    Price = prod.Price,
-                    Image = prod.ImageUrl,
-                    CategoryName = prod.CategoryName,
-                    Total = prod.Total
-                };
+                    ProductResult product = new ProductResult()
+                    {
+                        Name = prod.Name,
+                        BrandName = prod.BrandName,
+                        Option = prod.Option,
+                        Price = prod.Price,
+                        Image = prod.ImageUrl,
+                        CategoryName = prod.CategoryName,
+                        Total = prod.Total
+                    };
 
-                result.Products.Add(product);
+                    result.Products.Add(product);
+                }
+
+                if (products.Count > 0)
+                    result.TotalPages = totalPages;
+
+                return result;
             }
-
-            if (products.Count > 0)
-                result.TotalPages = totalPages;
-
-            return result;
+            catch (Exception exception)
+            {
+                throw;
+            }
         }
 
         public async Task<List<ProductResult>> FindByIdAsync(int id)
         {
-            List<ProductResult> result = new List<ProductResult>();
-
-            if (id <= 0)
-                throw new Exception("A key está vazia ou inválida");
-
-            var products = await _productRepository.FindByIdAsync(id);
-
-            foreach (var prod in products)
+            try
             {
-                ProductResult product = new ProductResult()
+                List<ProductResult> result = new List<ProductResult>();
+
+                if (id <= 0)
+                    throw new Exception("A key está vazia ou inválida");
+
+                var products = await _productRepository.FindByIdAsync(id);
+
+                foreach (var prod in products)
                 {
-                    Name = prod.Name,
-                    BrandName = prod.BrandName,
-                    Option = prod.Option,
-                    Price = prod.Price,
-                    Image = prod.ImageUrl,
-                    CategoryName = prod.CategoryName,
-                    Total = prod.Total
-                };
+                    ProductResult product = new ProductResult()
+                    {
+                        Name = prod.Name,
+                        BrandName = prod.BrandName,
+                        Option = prod.Option,
+                        Price = prod.Price,
+                        Image = prod.ImageUrl,
+                        CategoryName = prod.CategoryName,
+                        Total = prod.Total
+                    };
 
-                result.Add(product);
+                    result.Add(product);
+                }
+
+                return result;
             }
-
-            return result;
+            catch (Exception exception)
+            {
+                throw;
+            }
         }
 
         public async Task<List<ProductResult>> FindByNameAsync(string name)
         {
-            List<ProductResult> result = new List<ProductResult>();
-
-            if (string.IsNullOrEmpty(name) || name == "string" || name.Length > 200)
-                throw new Exception("O nome está em um formato inválido");
-
-            name = HandleFormat.CleanName(name.ToUpper());
-
-            var products = await _productRepository.FindByNameAsync(name);
-
-            foreach (var prod in products)
+            try
             {
-                ProductResult product = new ProductResult()
+                List<ProductResult> result = new List<ProductResult>();
+
+                if (string.IsNullOrEmpty(name) || name == "string" || name.Length > 200)
+                    throw new Exception("O nome está em um formato inválido");
+
+                name = HandleFormat.CleanName(name.ToUpper());
+
+                var products = await _productRepository.FindByNameAsync(name);
+
+                foreach (var prod in products)
                 {
-                    Name = prod.Name,
-                    BrandName = prod.BrandName,
-                    Option = prod.Option,
-                    Price = prod.Price,
-                    Image = prod.ImageUrl,
-                    CategoryName = prod.CategoryName,
-                    Total = prod.Total
-                };
+                    ProductResult product = new ProductResult()
+                    {
+                        Name = prod.Name,
+                        BrandName = prod.BrandName,
+                        Option = prod.Option,
+                        Price = prod.Price,
+                        Image = prod.ImageUrl,
+                        CategoryName = prod.CategoryName,
+                        Total = prod.Total
+                    };
 
-                result.Add(product);
+                    result.Add(product);
+                }
+
+                return result;
             }
-
-            return result;
+            catch (Exception exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> ChangeAsync(ProductParams product)

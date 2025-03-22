@@ -77,6 +77,23 @@ namespace HairCut.Tools.Repository
             }
         }
 
+        public async Task<List<ItemBase>> FindByStatusAndDateAsync(ItemBase.ItemState status, DateTime date, int userId)
+        {
+            try
+            {
+                var items = await _context.Items
+                    .Where(t => t.UserId == userId && t.Status != status && t.CreateDate < date)
+                    .OrderByDescending(t => t.CreateDate)
+                    .ToListAsync();
+
+                return items;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar obter o item do banco de dados", ex);
+            }
+        }
+
         public async Task<List<ItemBase>> FindByOrderIdAsync(Guid orderRequestid)
         {
             try
@@ -91,6 +108,20 @@ namespace HairCut.Tools.Repository
             catch (Exception ex)
             {
                 throw new Exception("Ocorreu um erro ao tentar obter o item do banco de dados", ex);
+            }
+        }
+
+        public async Task<bool> UpdateAsync(ItemBase item)
+        {
+            try
+            {
+                _context.Items.Update(item);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao tentar atualizar item", ex);
             }
         }
 

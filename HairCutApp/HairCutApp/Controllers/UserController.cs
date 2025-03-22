@@ -43,7 +43,7 @@ namespace HairCutApp.Controllers
             }
         }
 
-        // Create a way to send a code to change a account information (e-mail or phone)s
+        // TODO: Create a way to send a code to change a account information (e-mail or phone)
 
         [HttpPut("change", Name = "changeLogin")]
         public async Task<IActionResult> ChangeAsync(int receivedCode, string password, string? email)

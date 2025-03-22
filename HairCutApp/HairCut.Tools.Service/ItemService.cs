@@ -53,35 +53,42 @@ namespace HairCut.Tools.Service
 
         public async Task<List<ItemResult>> FindByOrderIdAsync(Guid orderRequestId)
         {
-            List<ItemResult> result = new List<ItemResult>();
-
-            if (orderRequestId == Guid.Empty || orderRequestId == default)
-                throw new Exception("A key está vazia ou inválida");
-
-            var items = await _itemRepository.FindByOrderIdAsync(orderRequestId);
-
-            foreach (var it in items)
+            try
             {
-                ItemResult item = new ItemResult()
+                List<ItemResult> result = new List<ItemResult>();
+
+                if (orderRequestId == Guid.Empty || orderRequestId == default)
+                    throw new Exception("A key está vazia ou inválida");
+
+                var items = await _itemRepository.FindByOrderIdAsync(orderRequestId);
+
+                foreach (var it in items)
                 {
-                    Name = it.ItemName,
-                    Price = (double)it.ItemPrice,
-                    Quantity = it.Quantity
-                };
+                    ItemResult item = new ItemResult()
+                    {
+                        Name = it.ItemName,
+                        Price = (double)it.ItemPrice,
+                        Quantity = it.Quantity
+                    };
 
-                if (it.Status == ItemBase.ItemState.Pending)
-                    item.Status = "Pendente";
+                    if (it.Status == ItemBase.ItemState.Pending)
+                        item.Status = "Pendente";
 
-                if (it.Status == ItemBase.ItemState.Waiting)
-                    item.Status = "Aguardando";
+                    if (it.Status == ItemBase.ItemState.Waiting)
+                        item.Status = "Aguardando";
 
-                if (string.IsNullOrEmpty(item.Status))
-                    item.Status = "Finalizado";
+                    if (string.IsNullOrEmpty(item.Status))
+                        item.Status = "Finalizado";
 
-                result.Add(item);
+                    result.Add(item);
+                }
+
+                return result;
             }
-
-            return result;
+            catch (Exception exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> DeleteAsync(Guid orderRequestId)
