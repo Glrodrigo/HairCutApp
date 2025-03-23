@@ -93,6 +93,7 @@ namespace HairCutApp.Controllers
         }
 
         [HttpPut("change", Name = "changeStatus")]
+        [Authorize]
         public async Task<IActionResult> ChangeAsync(int id, int userId, OrderBase.ItemState status)
         {
             try

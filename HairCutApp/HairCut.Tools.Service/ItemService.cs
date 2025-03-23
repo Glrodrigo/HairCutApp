@@ -26,12 +26,12 @@ namespace HairCut.Tools.Service
                 var users = await _userRepository.FindByIdAsync(userId);
 
                 if (users.Count == 0)
-                    throw new Exception("Usuário não encontrado");
+                    throw new Exception("Usuário não localizado em nossa base");
 
                 var products = await _productRepository.FindByIdAsync(item.ItemId);
 
                 if (products.Count == 0)
-                    throw new Exception("Produto não disponível");
+                    throw new Exception("Produto não localizado em nossa base");
 
                 if (item.Quantity > products[0].Total)
                     throw new Exception("Quantidade não disponível");

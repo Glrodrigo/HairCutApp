@@ -52,7 +52,16 @@
             { "Ocorreu um erro ao tentar obter o usuário do banco de dados", "00037" },
             { "Erro ao tentar atualizar usuário", "00038" },
             { "A ordem não foi localizada em nossa base", "00039" },
-            { "Sem itens adicionados ao carrinho", "00040" }
+            { "Sem itens adicionados ao carrinho", "00040" },
+            { "A ordem não pode ser utilizada", "00041" },
+            { "O invoice não foi localizado em nossa base", "00042" },
+            { "Aguarde ser efetuado o pagamento", "00043" },
+            { "A página está vazia ou inválida", "00044" },
+            { "O pagamento está vazio ou inválido", "00045" },
+            { "O status está vazio ou inválido", "00046" },
+            { "A página ou a chave status está vazia ou inválida", "00047" },
+            { "Produto não localizado em nossa base", "00048" },
+            { "Quantidade não disponível", "00049" }
         };
 
         public static ErrorDomain GetError(string error)

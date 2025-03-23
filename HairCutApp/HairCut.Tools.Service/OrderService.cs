@@ -14,15 +14,17 @@ namespace HairCut.Tools.Service
         private IUserRepository _userRepository { get; set; }
         private IItemRepository _itemRepository { get; set; }
         private IProductRepository _productRepository { get; set; }
+        private IInvoiceRepository _invoiceRepository { get; set; }
 
         public OrderService(IConfiguration configuration, IOrderRepository orderRepository, IUserRepository userRepository, 
-            IItemRepository itemRepository, IProductRepository productRepository)
+            IItemRepository itemRepository, IProductRepository productRepository, IInvoiceRepository invoiceRepository)
         {
             _configuration = configuration;
             _orderRepository = orderRepository;
             _userRepository = userRepository;
             _itemRepository = itemRepository;
             _productRepository = productRepository;
+            _invoiceRepository = invoiceRepository;
         }
 
         public async Task<bool> CreateAsync(int userId)
@@ -34,7 +36,7 @@ namespace HairCut.Tools.Service
                 var users = await _userRepository.FindByIdAsync(userId);
 
                 if (users.Count == 0)
-                    throw new Exception("Usuário não encontrado");
+                    throw new Exception("Usuário não localizado em nossa base");
 
                 var items = await _itemRepository.FindByUserIdAsync(userId, ItemBase.ItemState.Pending);
 
@@ -80,14 +82,7 @@ namespace HairCut.Tools.Service
                         Total = ord.Total
                     };
 
-                    if (ord.Status == OrderBase.ItemState.Pending)
-                        order.Status = "Pendente";
-
-                    if (ord.Status == OrderBase.ItemState.Waiting)
-                        order.Status = "Aguardando";
-
-                    if (ord.Status == OrderBase.ItemState.Concluded)
-                        order.Status = "Finalizado";
+                    order.Status = Status(ord, order);
 
                     if (ord.ConcludedDate != null)
                         order.ConcludedDate = ((DateTime)ord.ConcludedDate).ToString("dd/MM/yyyy");
@@ -129,14 +124,7 @@ namespace HairCut.Tools.Service
                     Total = recent.Total
                 };
 
-                if (recent.Status == OrderBase.ItemState.Pending)
-                    order.Status = "Pendente";
-
-                if (recent.Status == OrderBase.ItemState.Waiting)
-                    order.Status = "Aguardando";
-
-                if (recent.Status == OrderBase.ItemState.Concluded)
-                    order.Status = "Finalizado";
+                order.Status = Status(recent, order);
 
                 if (recent.ConcludedDate != null)
                     order.ConcludedDate = ((DateTime)recent.ConcludedDate).ToString("dd/MM/yyyy");
@@ -174,14 +162,7 @@ namespace HairCut.Tools.Service
                         Total = ord.Total
                     };
 
-                    if (ord.Status == OrderBase.ItemState.Pending)
-                        order.Status = "Pendente";
-
-                    if (ord.Status == OrderBase.ItemState.Waiting)
-                        order.Status = "Aguardando";
-
-                    if (ord.Status == OrderBase.ItemState.Concluded)
-                        order.Status = "Finalizado";
+                    order.Status = Status(ord, order);
 
                     if (ord.ConcludedDate != null)
                         order.ConcludedDate = ((DateTime)ord.ConcludedDate).ToString("dd/MM/yyyy");
@@ -223,14 +204,7 @@ namespace HairCut.Tools.Service
                         Total = ord.Total
                     };
 
-                    if (ord.Status == OrderBase.ItemState.Pending)
-                        order.Status = "Pendente";
-
-                    if (ord.Status == OrderBase.ItemState.Waiting)
-                        order.Status = "Aguardando";
-
-                    if (ord.Status == OrderBase.ItemState.Concluded)
-                        order.Status = "Finalizado";
+                    order.Status = Status(ord, order);
 
                     if (ord.ConcludedDate != null)
                         order.ConcludedDate = ((DateTime)ord.ConcludedDate).ToString("dd/MM/yyyy");
@@ -289,6 +263,7 @@ namespace HairCut.Tools.Service
             try
             {
                 bool result = false;
+                bool isPayment = false;
 
                 if (status != OrderBase.ItemState.Pending && status != OrderBase.ItemState.Waiting && status != OrderBase.ItemState.Concluded)
                     throw new Exception("O status está vazio ou inválido");
@@ -299,7 +274,7 @@ namespace HairCut.Tools.Service
                 var users = await _userRepository.FindByIdAsync(userId);
 
                 if (users.Count == 0)
-                    throw new Exception("Usuário não foi localizado em nossa base");
+                    throw new Exception("Usuário não localizado em nossa base");
 
                 var orders = await _orderRepository.FindByIdAsync(id, OrderBase.ItemState.Concluded);
 
@@ -310,13 +285,26 @@ namespace HairCut.Tools.Service
 
                 if (order.Status != status)
                 {
+                    if(status == OrderBase.ItemState.Concluded && order.AccountOrderId != null)
+                    {
+                        var invoices = await _invoiceRepository.FindByAccountOrderIdAsync(userId, (Guid)order.AccountOrderId);
+
+                        if (users.Count == 0)
+                            throw new Exception("O invoice não foi localizado em nossa base");
+
+                        if (!invoices[0].IsPayment)
+                            throw new Exception("Aguarde ser efetuado o pagamento");
+
+                        order.ConcludedDate = order.EventDate;
+                    }
+                    else if (status == OrderBase.ItemState.Concluded)
+                    {
+                        throw new Exception("Aguarde ser efetuado o pagamento");
+                    }
+
                     order.Status = status;
                     order.ChangeUserId = userId;
                     order.EventDate = DateTime.UtcNow;
-                    order.ConcludedDate = null;
-
-                    if (order.Status == OrderBase.ItemState.Concluded)
-                        order.ConcludedDate = order.EventDate;
 
                     result = await _orderRepository.UpdateAsync(order);
                 }
@@ -395,6 +383,20 @@ namespace HairCut.Tools.Service
             {
                 throw;
             }
+        }
+
+        private string Status(OrderBase ord, OrderResult order)
+        {
+            if (ord.Status == OrderBase.ItemState.Pending)
+                order.Status = "Pendente";
+
+            if (ord.Status == OrderBase.ItemState.Waiting)
+                order.Status = "Aguardando";
+
+            if (ord.Status == OrderBase.ItemState.Concluded)
+                order.Status = "Finalizado";
+
+            return order.Status;
         }
     }
 }

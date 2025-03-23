@@ -12,6 +12,7 @@ namespace HairCut.Tools.Repository
         public DbSet<BucketBase> Buckets { get; set; }
         public DbSet<ItemBase> Items { get; set; }
         public DbSet<OrderBase> Orders { get; set; }
+        public DbSet<InvoiceBase> Invoices { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
@@ -143,6 +144,23 @@ namespace HairCut.Tools.Repository
 
             modelBuilder.Entity<OrderBase>()
                 .Property(f => f.Status)
+                .IsRequired();
+
+
+            modelBuilder.Entity<InvoiceBase>()
+                .HasKey(g => g.Id);
+
+            modelBuilder.Entity<InvoiceBase>()
+                .Property(g => g.Id)
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            modelBuilder.Entity<InvoiceBase>()
+                .Property(g => g.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<InvoiceBase>()
+                .Property(g => g.Status)
                 .IsRequired();
 
             base.OnModelCreating(modelBuilder);
