@@ -59,3 +59,5 @@ Para rodar a aplicação, clique em Iniciar ou pressione F5. O Visual Studio ir�
 A aplicação depende da string de conexão correta para funcionar corretamente. Sem uma configuração válida para o banco de dados, a aplicação não conseguirá se conectar ao SQL Server e não executará operações de leitura e gravação de dados.
 
 ### Nota: Se você estiver utilizando uma instância diferente do SQL Server, altere a string de conexão conforme necessário.
+
+### Link: [https://haircutapp-frb3grgtfkg8cdhj.centralus-01.azurewebsites.net/swagger/index.html].
