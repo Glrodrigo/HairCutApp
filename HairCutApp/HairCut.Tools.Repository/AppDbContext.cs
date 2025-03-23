@@ -13,6 +13,7 @@ namespace HairCut.Tools.Repository
         public DbSet<ItemBase> Items { get; set; }
         public DbSet<OrderBase> Orders { get; set; }
         public DbSet<InvoiceBase> Invoices { get; set; }
+        public DbSet<ScheduleBase> Schedules { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
@@ -161,6 +162,27 @@ namespace HairCut.Tools.Repository
 
             modelBuilder.Entity<InvoiceBase>()
                 .Property(g => g.Status)
+                .IsRequired();
+
+
+            modelBuilder.Entity<ScheduleBase>()
+                .HasKey(h => h.Id);
+
+            modelBuilder.Entity<ScheduleBase>()
+                .Property(h => h.Id)
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            modelBuilder.Entity<ScheduleBase>()
+                .Property(h => h.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<ScheduleBase>()
+                .Property(h => h.Email)
+                .IsRequired();
+
+            modelBuilder.Entity<ScheduleBase>()
+                .Property(h => h.Price)
                 .IsRequired();
 
             base.OnModelCreating(modelBuilder);

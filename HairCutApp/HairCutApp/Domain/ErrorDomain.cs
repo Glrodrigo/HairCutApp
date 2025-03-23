@@ -61,7 +61,10 @@
             { "O status está vazio ou inválido", "00046" },
             { "A página ou a chave status está vazia ou inválida", "00047" },
             { "Produto não localizado em nossa base", "00048" },
-            { "Quantidade não disponível", "00049" }
+            { "Quantidade não disponível", "00049" },
+            { "O telefone está vazio ou inválido", "00050" },
+            { "A descrição está muito longa", "00051" },
+            { "O data está vazia ou inválida", "00052" }
         };
 
         public static ErrorDomain GetError(string error)

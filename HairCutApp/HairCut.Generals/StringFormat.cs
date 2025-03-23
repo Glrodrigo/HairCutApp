@@ -24,5 +24,11 @@ namespace HairCut.Generals
 
             return Regex.IsMatch(hexColor, pattern);
         }
+
+        public static bool IsValidPhoneNumber(string phoneNumber)
+        {
+            string pattern = @"^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$";
+            return Regex.IsMatch(phoneNumber, pattern);
+        }
     }
 }
